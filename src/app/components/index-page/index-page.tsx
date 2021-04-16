@@ -12,8 +12,6 @@ interface IndexPageState {
     username: string
 }
 
-// interface IndexPageProps {
-// }
 
 export class IndexPage extends Component<unknown, IndexPageState> {
 

@@ -15,7 +15,7 @@ interface LoginPageProps {
 
 export class LoginPage extends Component<LoginPageProps, LoginPageState> {
 
-    constructor(props: LoginPageProps, state: LoginPageState){
+    constructor(props: LoginPageProps){
         super(props);
         this.handleUsername = this.handleUsername.bind(this);
         this.handlePassword = this.handlePassword.bind(this);

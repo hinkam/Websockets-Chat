@@ -24,6 +24,8 @@ export class MainPage extends Component<MainPageProps, MainPageState> {
         this.handleMessageBox = this.handleMessageBox.bind(this);
         this.onLogoutButtonClick = this.onLogoutButtonClick.bind(this);
         this.onSendButtonClick = this.onSendButtonClick.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
         this.state = {
             messageBox: '',
             messages: []
@@ -62,8 +64,20 @@ export class MainPage extends Component<MainPageProps, MainPageState> {
         }
     }
 
-    async onSendButtonClick(){
+    sendMessage(){
         this.client.send(JSON.stringify({ username: this.props.username, messageBox: this.state.messageBox }))
+        this.setState({
+            messageBox: ''
+        })
+    }
+
+    onSubmit(event: React.FormEvent<HTMLFormElement>){
+        event.preventDefault();
+        this.sendMessage();
+    }
+
+    onSendButtonClick(){
+        this.sendMessage();
     }
 
     render(): JSX.Element {
@@ -81,13 +95,13 @@ export class MainPage extends Component<MainPageProps, MainPageState> {
                             </Container>
                         </Nav>
                         <Container className="container-fluid border flex-fill d-flex flex-column" style={{ padding: 0, marginTop: 10, marginBottom: 30 }}>
-                            <Container className="flex-fill" style={{ padding: 0 }}>
-                                {this.state.messages.map((message) => {
-                                    return (<MessageCard username={message.props.username} message={message.props.message}/>)
+                            <Container className="flex-fill" style={{ padding: 0, height: "80vh", overflowY: "auto" }}>
+                                {this.state.messages.map((message, i) => {
+                                    return (<MessageCard key={`${i}`} username={message.props.username} message={message.props.message}/>)
                                 })}
                             </Container>
-                            <Container style={{ padding: 8 }} className="border-top">
-                                <Form className="container-fluid">
+                            <Container style={{ padding: 8, minHeight: 40 }} className="border-top">
+                                <Form className="container-fluid" onSubmit={this.onSubmit}>
                                     <Form.Row className="align-items-center justify-content-center">
                                         <Col className="col-9">
                                         <Form.Control placeholder="Напишите сообщение..." value={this.state.messageBox} onChange={this.handleMessageBox}/>

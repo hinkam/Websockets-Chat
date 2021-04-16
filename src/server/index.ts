@@ -24,7 +24,7 @@ wsServer.on('connection', socket => {
               }
         })
     });
-})
+});
 
 
 getDatabase();
