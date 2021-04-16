@@ -1,8 +1,6 @@
 import cookieParser from 'cookie';
 import { Request, Response } from 'express';
-import { access } from 'node:fs';
 import { IncomingMessage } from 'node:http';
-import ws from 'ws';
 import { getDatabase } from "../database";
 
 export async function middleware(req: Request, res: Response, next: () => void){
