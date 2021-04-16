@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import { getDatabase } from './database';
 import { indexRouter } from './routes/';
 import "reflect-metadata";
+import { websocketMiddleware } from './controllers/AuthMiddleware';
 
 let server : Server;
 
@@ -16,7 +17,7 @@ const app = express();
 const port = 3000;
 
 const wsServer = new ws.Server({ noServer: true });
-wsServer.on('connection', socket => {
+wsServer.on('connection', (socket) => {
     socket.on('message', message => {
         wsServer.clients.forEach(client => {
             if (client.readyState === ws.OPEN) {
@@ -38,7 +39,16 @@ server = app.listen(port, () => {
 });
 
 server.on('upgrade', (request, socket, head) => {
-    wsServer.handleUpgrade(request, socket, head, socket => {
-      wsServer.emit('connection', socket, request);
-    });
+
+    websocketMiddleware(request, (err) => {
+        if (err) {
+          socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+          socket.destroy();
+          return;
+        }
+    
+        wsServer.handleUpgrade(request, socket, head, function done(ws) {
+            wsServer.emit('connection', ws, request);
+        });
+      });
   });
