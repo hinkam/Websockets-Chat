@@ -16,6 +16,7 @@ export class TokenController{
             tokenID: token,
             user
         })
+
     }
 
     public async deleteToken(token: string){

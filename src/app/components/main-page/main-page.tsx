@@ -87,7 +87,6 @@ export class MainPage extends Component<MainPageProps, MainPageState> {
                 <Redirect to='/login'/>
             );
         }
-        console.log(this.state.messages);
         return(
             <>
                 <Container fluid="xl" className="container-fluid h-100 d-flex flex-column" style={{maxWidth: "100%", padding: 0, margin: 0}}>

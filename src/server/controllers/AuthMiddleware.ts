@@ -29,9 +29,7 @@ export async function websocketMiddleware(req: IncomingMessage, callback: (err?:
     const userController = await (await getDatabase()).getUserController(); 
 
     if (req.headers.cookie){
-        console.log(req.headers.cookie);
         const cookie = cookieParser.parse(req.headers.cookie) as Record<string, string>;
-        console.log(cookie);
         if (!cookie.access_token){
             callback(new Error('Authentication error'));
         } else {
